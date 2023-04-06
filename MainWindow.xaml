@@ -3,19 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VkLauncher"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:vm="clr-namespace:VkLauncher.ViewModels"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Border Padding="20">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox 
-                        Margin="0 0 10 0"
-                        Text="Выбери процесс"/>
-                    <Button Content="программа" />
-                </StackPanel>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Path=SelectedPath}" Width="200" Margin="5"/>
+                <Button Content="Выбрать" Command="{Binding Path=ChoosePathCommand}" Margin="5"/>
             </StackPanel>
-        </Border>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Время:" Margin="5"/>
+                <xctk:TimePicker  Format="ShortTime" />
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Window>

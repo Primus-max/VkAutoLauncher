@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VkLauncher.ViewModels;
 
 namespace VkLauncher
 {
@@ -25,11 +26,6 @@ namespace VkLauncher
         {
             InitializeComponent();
 
-            // Получить экземпляр ViewModel из контейнера зависимостей
-            var viewModel = Ioc.Default.GetService<MainViewModel>();
-
-            // Установить DataContext формы MainWindow в экземпляр ViewModel
-            DataContext = viewModel;
         }
     }
 }
