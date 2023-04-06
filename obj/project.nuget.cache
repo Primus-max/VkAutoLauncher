@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "TrtZXmwnmmVGqZzFKgxEw5PNp5U/1AUTzDqQUlFt61AESHgSmr9/hAoBPZwzOr7LT9KysJgiFtPy3CPq4Qq68Q==",
+  "success": true,
+  "projectFilePath": "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\SKTV-1\\.nuget\\packages\\communitytoolkit.mvvm\\8.1.0\\communitytoolkit.mvvm.8.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
