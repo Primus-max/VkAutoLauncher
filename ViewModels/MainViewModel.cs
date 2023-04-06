@@ -43,12 +43,13 @@ namespace VkLauncher.ViewModels
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = "All files (*.*)|*.*"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                SelectedPath = Path.GetDirectoryName(openFileDialog.FileName);
+                SelectedPath = openFileDialog.FileName;
             }
         }
         #endregion
