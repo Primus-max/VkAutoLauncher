@@ -12,15 +12,20 @@
     </Window.DataContext>
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Path=SelectedPath}" Width="200" Margin="5"/>
-                <Button Content="Выбрать" Command="{Binding Path=ChoosePathCommand}" Margin="5"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="Путь"/>
+                    <TextBox Text="{Binding Path=SelectedPath}" Width="200" Margin="5"/>
+                    <Button Content="Процесс" Command="{Binding Path=ChoosePathCommand}" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Время:" Margin="5"/>
+                    <xctk:TimePicker Value="{Binding TimeInterval, Mode=TwoWay}" Format="ShortTime" />
+                </StackPanel>
+                <Button Content="Добавить в список задач" Command="{Binding AddPathCommand}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Время:" Margin="5"/>
-                <xctk:TimePicker Value="{Binding Hours}" Format="ShortTime" />
-            </StackPanel>
-        </StackPanel>
 
+            <Button Margin="0 150 0 0" Content="ЗАПУСТИТЬ ЗАДАЧИ" Command="{Binding StartTasksCommand}" />
+        </StackPanel>
     </Grid>
 </Window>
