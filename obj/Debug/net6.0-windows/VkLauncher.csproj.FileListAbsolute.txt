@@ -39,3 +39,4 @@ Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\ro\Xceed.Wpf.Avalon
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\ru\Xceed.Wpf.AvalonDock.NET5.resources.dll
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\sv\Xceed.Wpf.AvalonDock.NET5.resources.dll
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.NET5.resources.dll
+Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\NLog.dll

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
-using NLog;
 
 public class ProcessManager
 {
     private readonly Dictionary<string, int> _tasks;
     private readonly Dictionary<string, DateTime> _lastRunTimes = new Dictionary<string, DateTime>();
     private readonly object _lockObject = new object();
-
-    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    private readonly string _logFilePath;
 
     public ProcessManager(Dictionary<string, int> tasks)
     {
@@ -19,6 +18,7 @@ public class ProcessManager
         {
             _lastRunTimes[task.Key] = DateTime.MinValue;
         }
+        _logFilePath = "logGer.txt";
     }
 
     public void StartProcesses()
@@ -39,39 +39,75 @@ public class ProcessManager
 
                         if (timeSinceLastRun < interval)
                         {
-                            // ждем до окончания периода
-                            Thread.Sleep(interval - timeSinceLastRun);
+                            var sleepTime = interval - timeSinceLastRun;
+                            LogDebug($"Waiting for {sleepTime.TotalSeconds} seconds before starting {path}...");
+                            Thread.Sleep(sleepTime);
                         }
 
                         _lastRunTimes[path] = DateTime.Now;
 
+                        LogInfo($"Starting process {path}...");
                         var process = new Process
                         {
                             StartInfo = new ProcessStartInfo
                             {
-                                FileName = path
+                                FileName = path,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                UseShellExecute = false,
+                                CreateNoWindow = true
                             }
                         };
 
                         if (!process.Start())
                         {
-                            Logger.Error($"Failed to start process {path}");
-                        }
-                        else
-                        {
-                            Logger.Info($"Started process {path}");
+                            LogError($"Failed to start process {path}.");
+                            continue;
                         }
 
+                        var output = process.StandardOutput.ReadToEnd();
+                        var errors = process.StandardError.ReadToEnd();
                         process.WaitForExit();
 
-                        Logger.Info($"Process {path} finished with exit code {process.ExitCode}");
+                        if (process.ExitCode != 0)
+                        {
+                            LogError($"Process {path} exited with code {process.ExitCode}. Output: {output}. Errors: {errors}.");
+                            continue;
+                        }
+
+                        LogInfo($"Process {path} completed successfully. Output: {output}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Unhandled exception in ProcessManager");
+                LogError($"An exception occurred: {ex.ToString()}");
+            }
+            finally
+            {
+                Thread.Sleep(5000); // wait for 5 seconds before trying again
             }
         }
+    }
+
+    private void LogInfo(string message)
+    {
+        var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] INFO: {message}";
+        Console.WriteLine(logMessage);
+        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+    }
+
+    private void LogDebug(string message)
+    {
+        var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] DEBUG: {message}";
+        Console.WriteLine(logMessage);
+        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+    }
+
+    private void LogError(string message)
+    {
+        var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ERROR: {message}";
+        Console.WriteLine(logMessage);
+        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
     }
 }
