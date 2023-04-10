@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using NLog;
 
 public class ProcessManager
 {
     private readonly Dictionary<string, int> _tasks;
-    private readonly Dictionary<string, bool> _isRunning = new Dictionary<string, bool>();
+    private readonly Dictionary<string, DateTime> _lastRunTimes = new Dictionary<string, DateTime>();
+    private readonly object _lockObject = new object();
+
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     public ProcessManager(Dictionary<string, int> tasks)
     {
         _tasks = tasks;
-
-        // инициализируем _isRunning для каждого задания значением false
-        foreach (var task in _tasks.Keys)
+        foreach (var task in tasks)
         {
-            _isRunning[task] = false;
+            _lastRunTimes[task.Key] = DateTime.MinValue;
         }
     }
 
@@ -23,37 +25,53 @@ public class ProcessManager
     {
         while (true)
         {
-            foreach (var task in _tasks)
+            try
             {
-                var path = task.Key;
-                var interval = task.Value;
-
-                if (!_isRunning[path])
+                foreach (var task in _tasks)
                 {
-                    _isRunning[path] = true; // устанавливаем флаг блокировки для данного процесса
-                    var process = new Process
+                    var path = task.Key;
+                    var interval = TimeSpan.FromMinutes(task.Value);
+
+                    lock (_lockObject)
                     {
-                        StartInfo = new ProcessStartInfo
+                        var lastRunTime = _lastRunTimes[path];
+                        var timeSinceLastRun = DateTime.Now - lastRunTime;
+
+                        if (timeSinceLastRun < interval)
                         {
-                            FileName = path
+                            // ждем до окончания периода
+                            Thread.Sleep(interval - timeSinceLastRun);
                         }
-                    };
 
-                    if (!process.Start())
-                    {
-                        // Failed to start process, handle error here
+                        _lastRunTimes[path] = DateTime.Now;
+
+                        var process = new Process
+                        {
+                            StartInfo = new ProcessStartInfo
+                            {
+                                FileName = path
+                            }
+                        };
+
+                        if (!process.Start())
+                        {
+                            Logger.Error($"Failed to start process {path}");
+                        }
+                        else
+                        {
+                            Logger.Info($"Started process {path}");
+                        }
+
+                        process.WaitForExit();
+
+                        Logger.Info($"Process {path} finished with exit code {process.ExitCode}");
                     }
-
-                    process.WaitForExit();
-
-                    // освобождаем блокировку после завершения процесса
-                    _isRunning[path] = false;
                 }
             }
-
-            // ждем перед запуском нового цикла процессов
-            Thread.Sleep(TimeSpan.FromMinutes(1));
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Unhandled exception in ProcessManager");
+            }
         }
     }
 }
-

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Lg2H0nBQH9p3w0XaGSv6Awikm9Bj9UUEMwx3CraDWLrcfcqa3O9u9wJSriFIzyuJXrk8BcBd9TAQrbmS0miGpg==",
+  "dgSpecHash": "I9QDPp/5P8XXvVtU2YPbLRazD9fZIoOxk0QokZTBxoNeMIpMAJtDSjGD9TT/RzsgYufvwoWo9nDKf1U9tvLnDw==",
   "success": true,
   "projectFilePath": "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SKTV-1\\.nuget\\packages\\communitytoolkit.mvvm\\8.1.0\\communitytoolkit.mvvm.8.1.0.nupkg.sha512",
-    "C:\\Users\\SKTV-1\\.nuget\\packages\\extended.wpf.toolkit\\4.5.0\\extended.wpf.toolkit.4.5.0.nupkg.sha512"
+    "C:\\Users\\SKTV-1\\.nuget\\packages\\extended.wpf.toolkit\\4.5.0\\extended.wpf.toolkit.4.5.0.nupkg.sha512",
+    "C:\\Users\\SKTV-1\\.nuget\\packages\\nlog\\5.1.3\\nlog.5.1.3.nupkg.sha512"
   ],
   "logs": []
 }
