@@ -41,7 +41,7 @@ public class ProcessManager
                         {
                             var sleepTime = interval - timeSinceLastRun;
                             LogDebug($"Waiting for {sleepTime.TotalSeconds} seconds before starting {path}...");
-                            Thread.Sleep(sleepTime);
+                            Monitor.Wait(_lockObject, sleepTime);
                         }
 
                         _lastRunTimes[path] = DateTime.Now;
@@ -94,20 +94,29 @@ public class ProcessManager
     {
         var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] INFO: {message}";
         Console.WriteLine(logMessage);
-        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        lock (_lockObject)
+        {
+            File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        }
     }
 
     private void LogDebug(string message)
     {
         var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] DEBUG: {message}";
         Console.WriteLine(logMessage);
-        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        lock (_lockObject)
+        {
+            File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        }
     }
 
     private void LogError(string message)
     {
         var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ERROR: {message}";
         Console.WriteLine(logMessage);
-        File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        lock (_lockObject)
+        {
+            File.AppendAllText(_logFilePath, logMessage + Environment.NewLine);
+        }
     }
 }
