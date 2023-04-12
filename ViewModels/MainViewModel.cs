@@ -76,11 +76,18 @@ namespace VkLauncher.ViewModels
 
         private void StartTasks()
         {
-            var processManager = new ProcessManager(Tasks);
 
-            // Запускаем задачу в отдельном потоке чтобы не блокировала интерфейс
-            Thread longOperationThread = new Thread(processManager.StartProcesses);
-            longOperationThread.Start();
+            QuartzProcessLauncher launcher = new QuartzProcessLauncher();
+            launcher.Start(Tasks);
+
+            //ProcessLauncher launcher = new ProcessLauncher(Tasks);
+            //launcher.Start();
+
+            //var processManager = new ProcessManager(Tasks);
+
+            //// Запускаем задачу в отдельном потоке чтобы не блокировала интерфейс
+            //Thread longOperationThread = new Thread(processManager.StartProcesses);
+            //longOperationThread.Start();
 
         }
         #endregion

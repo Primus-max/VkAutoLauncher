@@ -40,3 +40,6 @@ Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\ru\Xceed.Wpf.Avalon
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\sv\Xceed.Wpf.AvalonDock.NET5.resources.dll
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.NET5.resources.dll
 Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\NLog.dll
+Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\Quartz.dll
+Z:\Programming\ProjectC#\VkLauncher\bin\Debug\net6.0-windows\System.Configuration.ConfigurationManager.dll
