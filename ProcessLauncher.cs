@@ -3,6 +3,7 @@ using Quartz.Impl;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 public class QuartzProcessLauncher
@@ -16,6 +17,10 @@ public class QuartzProcessLauncher
 
     public void Start(Dictionary<string, int> processIntervals)
     {
+        int intervalSeconds = 15; // интервал между запусками программ        
+
+        DateTimeOffset startTime = DateTimeOffset.Now.AddSeconds(intervalSeconds);
+
         foreach (var kvp in processIntervals)
         {
             string path = kvp.Key;
@@ -28,19 +33,20 @@ public class QuartzProcessLauncher
 
             var trigger = TriggerBuilder.Create()
                 .WithIdentity(path, "process")
-                .StartNow()
+                .StartAt(startTime)
                 .WithSimpleSchedule(x => x
                     .WithIntervalInSeconds(interval * 60)
                     .RepeatForever())
                 .Build();
 
             this.scheduler.ScheduleJob(job, trigger);
+
+            startTime = startTime.AddSeconds(intervalSeconds);
         }
 
         this.scheduler.Start();
+
     }
-
-
 
     public void Stop()
     {
@@ -54,17 +60,32 @@ public class QuartzProcessLauncher
         {
             string? path = context?.JobDetail.JobDataMap.GetString("Path");
 
+
+            string lockFilePath = $"{path}.lock";
+
+            if (File.Exists(lockFilePath))
+            {
+                //Console.WriteLine($"Process '{path}' is already running.");
+                return;
+            }
+
             try
             {
-                Process.Start(path);
+                File.Create(lockFilePath).Dispose();
+                Process.Start(path).WaitForExit();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Failed to start process '{path}': {ex.Message}");
+                //Console.WriteLine($"Failed to start process '{path}': {ex.Message}");
+            }
+            finally
+            {
+                File.Delete(lockFilePath);
             }
 
             await Task.CompletedTask;
         }
+
     }
 
 }
