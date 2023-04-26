@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-Z:\Programming\ProjectC#\VkLauncher\obj\Debug\net6.0-windows\
+Z:\Programming\ProjectC#\ComPoster\VkLauncher\obj\Debug\net6.0-windows\
 VkLauncher
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-Z:\Programming\ProjectC#\VkLauncher\App.xaml
+Z:\Programming\ProjectC#\ComPoster\VkLauncher\App.xaml
 11407045341
 
-10-866365755
+11536162855
 204832318039
 MainWindow.xaml;
 
-False
+True
 

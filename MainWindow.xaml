@@ -6,26 +6,34 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:vm="clr-namespace:VkLauncher.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="400">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
     <Grid>
-        <StackPanel>
+        <Border Padding="10">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="Путь"/>
-                    <TextBox Text="{Binding Path=SelectedPath}" Width="200" Margin="5"/>
-                    <Button Content="Процесс" Command="{Binding Path=ChoosePathCommand}" Margin="5"/>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                        <TextBlock Text="Процесс.exe" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Path=SelectedPath}" Width="200" Margin="5"/>
+                        <Button Content="Выбрать" Command="{Binding Path=ChoosePathCommand}" Margin="5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                        <TextBlock Text="Запускать каждые:" Margin="0 0 10 0"/>
+                        <xctk:TimePicker Width="100" Value="{Binding TimeInterval, Mode=TwoWay}" Format="ShortTime" />
+                    </StackPanel>
+                    <Button Content="Добавить в список задач" Command="{Binding AddPathCommand}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Время:" Margin="5"/>
-                    <xctk:TimePicker Value="{Binding TimeInterval, Mode=TwoWay}" Format="ShortTime" />
+                <StackPanel Margin="0 20 0 0">
+                    <TextBlock Text="Список задач:"/>
+                    <ListView
+                        MinHeight="100"
+                        ItemsSource="{Binding AddedTasks}"/>
                 </StackPanel>
-                <Button Content="Добавить в список задач" Command="{Binding AddPathCommand}" />
-            </StackPanel>
 
-            <Button Margin="0 150 0 0" Content="ЗАПУСТИТЬ ЗАДАЧИ" Command="{Binding StartTasksCommand}" />
-        </StackPanel>
+                <Button Margin="0 50 0 0" Content="ЗАПУСТИТЬ ЗАДАЧИ" Command="{Binding StartTasksCommand}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

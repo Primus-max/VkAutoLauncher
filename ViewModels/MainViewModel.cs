@@ -37,6 +37,8 @@ namespace VkLauncher.ViewModels
         }
 
         public Dictionary<string, int> Tasks { get; set; } = new Dictionary<string, int>();
+
+        public ObservableCollection<string> AddedTasks { get; set; } = new ObservableCollection<string>();
         #endregion
 
         #region КОММАНДЫ
@@ -103,7 +105,17 @@ namespace VkLauncher.ViewModels
             }
 
             Tasks.Add(path, interval);
+            ViewTasks(path);
             return true;
+        }
+
+        // Отображаю список задач во View
+        public void ViewTasks(string taskPath)
+        {
+            string[] fullTaskPathSplitted = taskPath.Split("\\");
+            string taskName = fullTaskPathSplitted[fullTaskPathSplitted.Length - 1];
+
+            AddedTasks.Add(taskName);
         }
         #endregion
 

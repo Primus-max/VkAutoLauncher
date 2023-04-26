@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj": {}
+    "Z:\\Programming\\ProjectC#\\ComPoster\\VkLauncher\\VkLauncher.csproj": {}
   },
   "projects": {
-    "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj": {
+    "Z:\\Programming\\ProjectC#\\ComPoster\\VkLauncher\\VkLauncher.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj",
+        "projectUniqueName": "Z:\\Programming\\ProjectC#\\ComPoster\\VkLauncher\\VkLauncher.csproj",
         "projectName": "VkLauncher",
-        "projectPath": "Z:\\Programming\\ProjectC#\\VkLauncher\\VkLauncher.csproj",
+        "projectPath": "Z:\\Programming\\ProjectC#\\ComPoster\\VkLauncher\\VkLauncher.csproj",
         "packagesPath": "C:\\Users\\SKTV-1\\.nuget\\packages\\",
-        "outputPath": "Z:\\Programming\\ProjectC#\\VkLauncher\\obj\\",
+        "outputPath": "Z:\\Programming\\ProjectC#\\ComPoster\\VkLauncher\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "Z:\\Programs\\VS\\Shared\\NuGetPackages",

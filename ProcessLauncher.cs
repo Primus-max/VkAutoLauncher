@@ -17,7 +17,7 @@ public class QuartzProcessLauncher
 
     public void Start(Dictionary<string, int> processIntervals)
     {
-        int intervalSeconds = 15; // интервал между запусками программ        
+        int intervalSeconds = 60; // интервал между запусками программ        
 
         DateTimeOffset startTime = DateTimeOffset.Now.AddSeconds(intervalSeconds);
 
@@ -44,8 +44,39 @@ public class QuartzProcessLauncher
             startTime = startTime.AddSeconds(intervalSeconds);
         }
 
+        // Запускаю список задач
         this.scheduler.Start();
 
+        // Проверяю работающие процессы из списка чтобы закрыть лишние браузеры и chromedriver
+        Task.Run(async () =>
+        {
+            while (true)
+            {
+                bool allProcessesStopped = true;
+                foreach (var kvp in processIntervals)
+                {
+                    string path = kvp.Key;
+                    string lockFilePath = $"{path}.lock";
+                    if (File.Exists(lockFilePath))
+                    {
+                        allProcessesStopped = false;
+                        break;
+                    }
+                }
+
+                if (allProcessesStopped)
+                {
+                    // Закрываю браузеры и драйверы если не один из процессов не запущен
+                   await Processes.CheckRunningChromeAsync();
+                   await Processes.CheckRunningChromeDriverAsync();
+
+                    break;
+                }
+
+                // Частота проверки состояния процессов
+                Task.Delay(3000).Wait();
+            }
+        });
     }
 
     public void Stop()
